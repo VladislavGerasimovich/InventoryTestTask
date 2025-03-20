@@ -1,6 +1,7 @@
 using Items;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Inventory
 {
@@ -11,6 +12,8 @@ namespace Inventory
         [SerializeField] private AllItems _allItems;
 
         private CanvasGroup _canvasGroup;
+
+        public UnityEvent<int> ItemTaken;
 
         public Coroutine OpenRoutine { get; private set; }
 
@@ -52,6 +55,7 @@ namespace Inventory
                     {
                         ItemMove itemMove = draggableItem.GetComponent<ItemMove>();
                         itemMove.Fall(draggableItem);
+                        ItemTaken?.Invoke(draggableItem.Id);
                     }
 
                     Close();

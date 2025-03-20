@@ -16,7 +16,7 @@ namespace Items
         public void CreateItem(Item item)
         {
             DraggableItem draggableItem = Instantiate(item.DraggableItemPrefab, transform);
-            draggableItem.Init(item.Type);
+            draggableItem.Init(item.Type, item.Id);
             _items.Add(draggableItem);
         }
 

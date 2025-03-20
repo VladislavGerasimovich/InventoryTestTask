@@ -13,6 +13,7 @@ namespace Items.SO
 
         public string Type => _type;
         public string Name => _name;
+        public int Id => _id;
         public DraggableItem DraggableItemPrefab => _prefab;
     }
 }
