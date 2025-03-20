@@ -1,25 +1,30 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Items
 {
     [RequireComponent(typeof(Collider))]
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(ItemCollisionHandler))]
     public class ItemMove : MonoBehaviour
     {
         private float _speed;
         private Coroutine _coroutine;
         private Collider _collider;
-        private Vector3 _startPosition;
+        private Rigidbody _rigidbody;
+        private ItemCollisionHandler _collisionHandler;
+        private float _distanceOffset;
 
         private void Awake()
         {
             _collider = GetComponent<Collider>();
-            _startPosition = transform.position;
-            _speed = 2f;
+            _rigidbody = GetComponent<Rigidbody>();
+            _collisionHandler = GetComponent<ItemCollisionHandler>();
+            _speed = 5f;
+            _distanceOffset = 0.01f;
         }
 
-        private IEnumerator RunCoroutine(Vector3 position, bool inInventory)
+        private IEnumerator RunCoroutine(Vector3 position)
         {
             _collider.enabled = false;
 
@@ -27,32 +32,39 @@ namespace Items
             {
                 transform.position = Vector3.Lerp(transform.position, position, _speed * Time.deltaTime);
 
-                if(Vector3.Distance(transform.position, position) < 0.01f)
+                if (Vector3.Distance(transform.position, position) < _distanceOffset)
                 {
                     StopCoroutine(_coroutine);
                     _coroutine = null;
-
-                    if(inInventory == false)
-                    {
-                        _collider.enabled = true;
-                    }
                 }
 
                 yield return null;
             }
-
         }
 
         public void SetPosition(Vector3 newPosition)
         {
+            _collider.isTrigger = true;
+            _rigidbody.isKinematic = true;
+
+            if (_collisionHandler.IsCrossed == true && newPosition.y < transform.position.y)
+            {
+                transform.position = new Vector3(newPosition.x, transform.position.y, transform.position.z);
+
+                return;
+            }
+
             transform.position = newPosition;
         }
 
-        public void SetStartPosition()
+        public void Fall(DraggableItem draggableItem)
         {
             if (_coroutine == null)
             {
-                _coroutine = StartCoroutine(RunCoroutine(_startPosition, false));
+                draggableItem.SetParent();
+                _collider.enabled = true;
+                _collider.isTrigger = false;
+                _rigidbody.isKinematic = false;
             }
         }
 
@@ -60,7 +72,7 @@ namespace Items
         {
             if (_coroutine == null)
             {
-                _coroutine = StartCoroutine(RunCoroutine(newPosition, true));
+                _coroutine = StartCoroutine(RunCoroutine(newPosition));
             }
         }
     }

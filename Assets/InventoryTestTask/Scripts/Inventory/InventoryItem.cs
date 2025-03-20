@@ -4,22 +4,29 @@ using UnityEngine.UI;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using TMPro;
 
 namespace Inventory
 {
     [RequireComponent(typeof(Button))]
     public class InventoryItem : MonoBehaviour
     {
-        [SerializeField] private string _type;
+        [SerializeField] private TMP_Text _text;
 
         private Dictionary<Entry, UnityAction<BaseEventData>> _events;
         private Button _button;
 
         public bool InZone { get; private set; }
+        public string Type { get; private set; }
 
-        public string Type => _type;
+        public void Init(string type, string name)
+        {
+            Type = type;
+            _text.text = name;
+            CreateEvent();
+        }
 
-        private void Start()
+        private void CreateEvent()
         {
             _events = new Dictionary<Entry, UnityAction<BaseEventData>>();
             _button = GetComponent<Button>();

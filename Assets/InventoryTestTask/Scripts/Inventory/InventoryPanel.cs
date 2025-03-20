@@ -1,6 +1,5 @@
 using Items;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Inventory
@@ -8,7 +7,7 @@ namespace Inventory
     [RequireComponent(typeof(CanvasGroup))]
     public class InventoryPanel : MonoBehaviour
     {
-        [SerializeField] private List<InventoryItem> _items;
+        [SerializeField] private InventoryItems _inventoryItems;
         [SerializeField] private AllItems _allItems;
 
         private CanvasGroup _canvasGroup;
@@ -44,21 +43,15 @@ namespace Inventory
 
             while (enabled)
             {
-                foreach (InventoryItem item in _items)
-                {
-                    if(item.InZone == true)
-                    {
-                        draggableItem = _allItems.GetItemByType(item.Type);
-                    }
-                }
+                InventoryItem item = _inventoryItems.GetHoveredItem();
+                draggableItem = item != null ? _allItems.GetItemByType(item.Type) : null;
 
                 if (Input.GetMouseButtonUp(0))
                 {
                     if(draggableItem != null && draggableItem.InInventory == true)
                     {
                         ItemMove itemMove = draggableItem.GetComponent<ItemMove>();
-                        draggableItem.SetParent();
-                        itemMove.SetStartPosition();
+                        itemMove.Fall(draggableItem);
                     }
 
                     Close();

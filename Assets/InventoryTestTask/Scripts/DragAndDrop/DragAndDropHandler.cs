@@ -56,7 +56,7 @@ namespace DragAndDrop
             }
 
             draggableItem.SetParent();
-            item.SetStartPosition();
+            item.Fall(draggableItem);
         }
     }
 }

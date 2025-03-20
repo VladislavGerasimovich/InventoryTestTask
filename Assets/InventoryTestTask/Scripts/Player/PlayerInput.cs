@@ -16,7 +16,7 @@ namespace Player
         private Coroutine _raycastRoutine;
         private Coroutine _waitRoutine;
 
-        private void Start()
+        public void RunRaycastRoutine()
         {
             _raycastRoutine = StartCoroutine(RaycastRoutine());
         }

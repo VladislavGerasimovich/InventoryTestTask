@@ -4,17 +4,15 @@ namespace Items
 {
     public class DraggableItem : MonoBehaviour
     {
-        [SerializeField] private string _type;
-
         private Transform _parentTransform;
 
         public bool InInventory { get; private set; }
+        public string Type { get; private set; }
 
-        public string Type => _type;
-
-        private void Awake()
+        public void Init(string type)
         {
             _parentTransform = transform.parent;
+            Type = type;
         }
 
         public void SetParent(Transform position)
