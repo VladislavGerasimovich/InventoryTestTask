@@ -49,7 +49,7 @@ namespace DragAndDrop
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _backpackLayerMask) == true)
             {
-                BackpackItems backpackitems = hit.collider.GetComponent<BackpackItems>();
+                BackpackSlots backpackitems = hit.collider.GetComponent<BackpackSlots>();
                 backpackitems.PutItem(draggableItem);
 
                 return;

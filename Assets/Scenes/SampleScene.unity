@@ -526,7 +526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac0ba6efb2d3e488faae7cd66b8ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: BURGER
 --- !u!1 &661987953
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,7 +968,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac0ba6efb2d3e488faae7cd66b8ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: STATUETTE
 --- !u!1 &1231458108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,7 +1232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac0ba6efb2d3e488faae7cd66b8ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: BEAR
 --- !u!1 &1937627817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,6 +1268,7 @@ MonoBehaviour:
   _allItems: {fileID: 1828819334}
   _grid: {fileID: 1144454536}
   _playerInput: {fileID: 1822035284}
+  _backpackSlots: {fileID: 33831686317564315}
 --- !u!4 &1937627819
 Transform:
   m_ObjectHideFlags: 0
@@ -1381,10 +1379,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1564870411941772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 005a4f9d7afe1234693e109885a7e5d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1de9d10d872a7c248b044c1139c71968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _items:
+  _slots:
   - {fileID: 1865895314}
   - {fileID: 649324674}
   - {fileID: 1185940280}

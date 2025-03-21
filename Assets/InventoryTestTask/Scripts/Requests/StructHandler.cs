@@ -8,7 +8,7 @@ namespace Requests
     [RequireComponent(typeof(POSTRequest))]
     public class StructHandler : MonoBehaviour
     {
-        [SerializeField] private BackpackItems _backpackItems;
+        [SerializeField] private BackpackSlots _backpackItems;
         [SerializeField] private InventoryPanel _inventoryPanel;
 
         private PostStruct _postStruct;

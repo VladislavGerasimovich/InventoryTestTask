@@ -5,15 +5,28 @@ using UnityEngine.Events;
 
 namespace Backpack
 {
-    public class BackpackItems : MonoBehaviour
+    public class BackpackSlots : MonoBehaviour
     {
-        [SerializeField] private List<BackpackItem> _items;
+        [SerializeField] private List<BackpackSlot> _slots;
 
         public UnityEvent<int> ItemPutted;
 
+        public void AddItemToSlot(string type)
+        {
+            foreach (BackpackSlot slot in _slots)
+            {
+                if(slot.IsBusy == false)
+                {
+                    slot.Reserve(type);
+
+                    return;
+                }
+            }
+        }
+
         public void PutItem(DraggableItem draggableItem)
         {
-            foreach (var item in _items)
+            foreach (var item in _slots)
             {
                 if(item.Type == draggableItem.Type)
                 {

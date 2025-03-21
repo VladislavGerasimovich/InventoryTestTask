@@ -1,3 +1,4 @@
+using Backpack;
 using Inventory.Grid;
 using Items;
 using Items.SO;
@@ -13,6 +14,7 @@ namespace EntryPoint
         [SerializeField] private AllItems _allItems;
         [SerializeField] private InventoryGrid _grid;
         [SerializeField] private PlayerInput _playerInput;
+        [SerializeField] private BackpackSlots _backpackSlots;
 
         private void Start()
         {
@@ -23,6 +25,7 @@ namespace EntryPoint
             {
                 _allItems.CreateItem(item);
                 _grid.AddItemToSlot(item);
+                _backpackSlots.AddItemToSlot(item.Type);
             }
 
             _playerInput.RunRaycastRoutine();
