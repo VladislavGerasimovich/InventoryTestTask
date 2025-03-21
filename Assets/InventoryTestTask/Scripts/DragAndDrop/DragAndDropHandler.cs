@@ -26,9 +26,17 @@ namespace DragAndDrop
             while (enabled)
             {
                 screenPosition = Input.mousePosition;
-                screenPosition.z = Camera.main.nearClipPlane + cameraOffset;
-                worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-                item.SetPosition(worldPosition);
+
+                if(
+                    screenPosition.x > 0 && 
+                    screenPosition.x < Screen.width &&
+                    screenPosition.y > 0 &&
+                    screenPosition.y < Screen.height)
+                {
+                    screenPosition.z = Camera.main.nearClipPlane + cameraOffset;
+                    worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+                    item.SetPosition(worldPosition);
+                }
 
                 if (Input.GetMouseButtonUp(0))
                 {
