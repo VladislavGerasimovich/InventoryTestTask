@@ -1,13 +1,12 @@
 using System.Collections;
-using System.Net.Http;
-using System.Threading.Tasks;
+using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Requests
 {
     public class POSTRequest : MonoBehaviour
     {
-        private HttpClient _httpClient;
         private string _url;
         private string _bearerToken;
 
@@ -15,23 +14,33 @@ namespace Requests
         {
             _url = "https://wadahub.manerai.com/api/inventory/status";
             _bearerToken = "kPERnYcWAY46xaSy8CEzanosAgsWM84Nx7SKM4QBSqPq6c7StWfGxzhxPfDh8MaP";
-            _httpClient = new HttpClient();
         }
 
         public void SendRequest(PostStruct postStruct)
         {
-            string json = JsonUtility.ToJson(postStruct);
-            Task<string> kdkd = PostDataWithBearerToken(_url, _bearerToken, json);
+            string jsonString = JsonUtility.ToJson(postStruct);
+            StartCoroutine(SendPostRequestWithAuthentication(_url, jsonString, _bearerToken));
         }
 
-        public async Task<string> PostDataWithBearerToken(string apiUrl, string bearerToken, string requestData)
+        private IEnumerator SendPostRequestWithAuthentication(string url, string jsonData, string authToken)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", bearerToken);
+            using (UnityWebRequest request = UnityWebRequest.PostWwwForm(url, jsonData))
+            {
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.SetRequestHeader("Authorization", authToken);
+                request.SetRequestHeader("Content-Type", "application/json");
+                yield return request.SendWebRequest();
 
-            var content = new StringContent(requestData, System.Text.Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(apiUrl, content);
-
-            return await response.Content.ReadAsStringAsync();
-        }
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError(request.error);
+                }
+                else
+                {
+                    Debug.Log("POST request successful: " + request.downloadHandler.text);
+                }
+            }
+        }        
     }
 }
